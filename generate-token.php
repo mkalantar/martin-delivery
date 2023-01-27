@@ -3,10 +3,9 @@ require __DIR__.'/vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 
-$file = 'tokens.ini';
+$tokens_file = 'tokens.txt';
+$key_file = '.secret';
 $key = readline("Enter Key: ");
-
-$output = ["[Key]", $key];
 
 $output[] = "[Customers]";
 for ($i=0; $i < random_int(3, 10); $i++) {
@@ -29,7 +28,5 @@ for ($i=0; $i < random_int(5, 15); $i++) {
 }
 
 
-file_put_contents($file, implode(PHP_EOL, $output));
-// file_put_contents($output, implode(PHP_EOL, $customers), FILE_APPEND);
-// file_put_contents($output, "\n\nCouriers Tokens:\n", FILE_APPEND);
-// file_put_contents($output, implode(PHP_EOL, $couriers), FILE_APPEND);
+file_put_contents($tokens_file, implode(PHP_EOL, $output));
+file_put_contents($key_file, $key);
