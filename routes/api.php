@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer;
-// use App\Http\Controllers\Courier;
+use App\Http\Controllers\Courier;
 
-use App\Http\Middleware\Courier as CourierMiddleware;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,9 +23,8 @@ Route::controller(Customer::class)->group(function () {
 
   Route::post('/request', 'createRequest');
   Route::delete('/request/{id}', 'cancelRequest');
-
 });
 
-Route::middleware((CourierMiddleware::class))->group(function() {
-
+Route::controller(Courier::class)->group(function () {
+  Route::get('/request', 'availableRequests');
 });
