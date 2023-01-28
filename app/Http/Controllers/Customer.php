@@ -40,16 +40,17 @@ class Customer extends Controller
             $requests_list = Cache::get('requests');
           }
 
+          $id = sprintf("R-%d-%s", time(), substr(str_shuffle(md5(microtime())), 0, 7));
+
           $new_request = $request->input();
           $new_request['isProcessing'] = false;
+          $new_request['id'] = $id;
           $requests_list[] = $new_request;
 
           Cache::put('requests', $requests_list);
+          Cache::put($id, count($requests_list) - 1);
 
           $lock->release();
-
-          $id = sprintf("R-%d-%s", time(), substr(str_shuffle(md5(microtime())), 0, 7));
-          Cache::put($id, count($requests_list) - 1);
 
           return response($id, 200);
         } catch (LockTimeoutException) {
