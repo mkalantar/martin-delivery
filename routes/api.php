@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Customer;
+// use App\Http\Controllers\Courier;
+
+use App\Http\Middleware\Courier as CourierMiddleware;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,7 +20,13 @@ use Illuminate\Support\Facades\Log;
 //     return $request->user();
 // });
 
-Route::post('/request', function (Request $request) {
-  Log::debug($request->all());
-  return;
+Route::controller(Customer::class)->group(function () {
+
+  Route::post('/request', 'createRequest');
+  Route::delete('/request/{id}', 'cancelRequest');
+
+});
+
+Route::middleware((CourierMiddleware::class))->group(function() {
+
 });
